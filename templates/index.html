@@ -4,21 +4,24 @@
     <title>Create Secret</title>
     <style>
         body {
-            background: linear-gradient(to right, #6a11cb, #2575fc);
+            background: linear-gradient(to right, #ff5722, #2575fc); /* Gradient from orange to blue */
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 50px 0;
         }
         h1 {
-            color: #ff5722;
+            font-size: 2.5em;
+            margin-bottom: 20px;
         }
         textarea {
-            width: 60%;
-            padding: 10px;
+            background-color: #ffffff;
+            color: #333;
             border-radius: 8px;
             border: 1px solid #ccc;
-            margin: 20px 0;
+            padding: 15px;
+            width: 80%;
+            margin-bottom: 20px;
         }
         button {
             background-color: #ff5722;
@@ -26,7 +29,8 @@
             font-size: 1.2em;
             border: none;
             padding: 10px 20px;
-            border-radius: 8px;
+            border-radius: 5px;
+            cursor: pointer;
         }
         button:hover {
             background-color: #e64a19;
@@ -36,7 +40,7 @@
 <body>
     <h1>Create a One-Time Secret</h1>
     <form action="/create_secret" method="POST">
-        <textarea name="secret" rows="5" cols="40" placeholder="Enter your secret..."></textarea><br>
+        <textarea name="secret" rows="5" placeholder="Enter your secret..." required></textarea><br>
         <button type="submit">Generate Link</button>
     </form>
 </body>
