@@ -1,77 +1,65 @@
-/* styles.css */
 body {
+    background: linear-gradient(to right, #2196f3, #ff9800);
+    color: white;
+    font-family: 'Arial', sans-serif;
+    height: 100vh;
     margin: 0;
-    padding: 0;
-    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to right, #1e3c72, #2a5298);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: white;
 }
 
 .container {
-    background-color: #ffffff;
-    color: #333;
-    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1);
     padding: 40px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     max-width: 600px;
-    width: 100%;
+    width: 90%;
     text-align: center;
 }
 
-textarea,
-input[type="text"] {
+textarea, input[type="text"] {
     width: 100%;
     padding: 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+    border-radius: 10px;
+    border: none;
     margin-bottom: 20px;
     font-size: 1em;
+    color: #333;
 }
 
 .btn {
-    background-color: #ff6f00;
+    background-color: #ff5722;
     border: none;
     padding: 12px 25px;
-    color: white;
-    border-radius: 8px;
     font-size: 1.1em;
+    border-radius: 8px;
+    color: white;
     cursor: pointer;
+    margin-top: 10px;
 }
 
 .btn:hover {
-    background-color: #e65100;
+    background-color: #e64a19;
 }
 
 .secret-link {
-    margin-top: 20px;
     display: inline-block;
-    background-color: #0288d1;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 8px;
+    background-color: #1976d2;
+    padding: 15px 20px;
+    border-radius: 10px;
     text-decoration: none;
+    color: white;
+    margin-top: 20px;
     word-break: break-all;
 }
 
 .secret-link:hover {
-    background-color: #0277bd;
+    background-color: #1565c0;
 }
 
-.message {
-    font-size: 1.3em;
-    margin-bottom: 20px;
-}
-
-.error {
-    color: #d32f2f;
-    font-weight: bold;
-}
-
-.success {
-    color: #388e3c;
-    font-weight: bold;
+.expired-message {
+    font-size: 1.5em;
+    color: #ffc107;
 }
