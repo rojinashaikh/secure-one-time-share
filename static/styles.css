@@ -1,65 +1,71 @@
 body {
-    background: linear-gradient(to right, #2196f3, #ff9800);
+    background: linear-gradient(to right, #2575fc, #ff5722);
     color: white;
     font-family: 'Arial', sans-serif;
-    height: 100vh;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding-top: 50px;
 }
 
 .container {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     max-width: 600px;
-    width: 90%;
+    margin: 0 auto;
     text-align: center;
 }
 
-textarea, input[type="text"] {
-    width: 100%;
-    padding: 15px;
-    border-radius: 10px;
-    border: none;
-    margin-bottom: 20px;
-    font-size: 1em;
+h1 {
+    font-size: 2.5em;
+    color: #fff;
+}
+
+.lead {
+    font-size: 1.2em;
+}
+
+.input-secret {
+    background-color: #ffffff;
     color: #333;
-}
-
-.btn {
-    background-color: #ff5722;
-    border: none;
-    padding: 12px 25px;
-    font-size: 1.1em;
     border-radius: 8px;
-    color: white;
-    cursor: pointer;
-    margin-top: 10px;
+    border: 1px solid #ccc;
+    padding: 15px;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
-.btn:hover {
-    background-color: #e64a19;
+.btn-create {
+    background: #ff5722;
+    color: white;
+    border: none;
+    font-size: 1.2em;
+}
+
+.btn-create:hover {
+    background: #e64a19;
 }
 
 .secret-link {
-    display: inline-block;
-    background-color: #1976d2;
-    padding: 15px 20px;
-    border-radius: 10px;
-    text-decoration: none;
+    background-color: #4caf50;
+    padding: 15px;
+    border-radius: 8px;
     color: white;
-    margin-top: 20px;
-    word-break: break-all;
+    text-decoration: none;
 }
 
 .secret-link:hover {
-    background-color: #1565c0;
+    background-color: #45a049;
 }
 
-.expired-message {
-    font-size: 1.5em;
-    color: #ffc107;
+.text-danger {
+    color: #ff1744 !important;
+}
+
+.btn-warning {
+    background-color: #ff5722;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+.btn-warning:hover {
+    background-color: #e64a19;
 }
