@@ -4,35 +4,36 @@
     <title>Secret Link</title>
     <style>
         body {
-            background: linear-gradient(to right, #6a11cb, #2575fc);
+            background: linear-gradient(to right, #ff5722, #2575fc); /* Gradient from orange to blue */
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 50px 0;
         }
         h2 {
-            color: #ff5722;
-        }
-        p {
-            font-size: 1.2em;
-            color: white;
+            font-size: 2em;
+            margin-bottom: 20px;
         }
         a {
-            color: #ff5722;
-            font-size: 1.5em;
+            color: #ffffff;
             text-decoration: none;
+            font-size: 1.2em;
+            background-color: #4caf50;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
         }
         a:hover {
-            color: #e64a19;
+            background-color: #45a049;
         }
-        strong {
-            color: #ff5722;
+        p {
+            font-size: 1.1em;
         }
     </style>
 </head>
 <body>
     <h2>Share this link:</h2>
-    <p><a href="{{ url }}">{{ url }}</a></p>
+    <p><a href="{{ url }}" target="_blank">{{ url }}</a></p>
     <p><strong>Note:</strong> This link can only be used once.</p>
 </body>
 </html>
