@@ -1,63 +1,56 @@
-import uuid
 import os
 import json
-from flask import Flask, render_template, request, url_for
+import uuid
+from flask import Flask, request, render_template, url_for
 
-# Path to the JSON file that stores the secrets
+app = Flask(__name__)
 SECRETS_FILE = 'secrets.json'
 
-# Function to read secrets from the file
+# Utility: Load secrets from file
 def load_secrets():
     if os.path.exists(SECRETS_FILE):
         with open(SECRETS_FILE, 'r') as f:
             return json.load(f)
     return {}
 
-# Function to save secrets to the file
+# Utility: Save secrets to file
 def save_secrets(secrets):
     with open(SECRETS_FILE, 'w') as f:
         json.dump(secrets, f)
 
-app = Flask(__name__)
-
+# Home page
 @app.route('/')
 def index():
     return render_template('index.html')
 
+# Handle secret creation
 @app.route('/create_secret', methods=['POST'])
 def create_secret():
     secret_content = request.form.get('secret')
-    if secret_content:
-        # Load existing secrets
-        secrets = load_secrets()
+    if not secret_content:
+        return 'No secret provided', 400
 
-        # Generate a new ID for the secret
-        secret_id = str(uuid.uuid4())  # Generate a unique ID using UUID
-        secrets[secret_id] = secret_content
+    secrets = load_secrets()
+    secret_id = str(uuid.uuid4())
+    secrets[secret_id] = secret_content
+    save_secrets(secrets)
 
-        # Save the updated secrets back to the file
-        save_secrets(secrets)
+    secret_link = url_for('get_secret', secret_id=secret_id, _external=True)
+    return render_template('link_created.html', link=secret_link)
 
-        # Generate the link to share
-        secret_link = url_for('get_secret', secret_id=secret_id, _external=True)
-        return f"Secret created! Share this link: <a href='{secret_link}'>{secret_link}</a>"
-
-    return 'No secret provided', 400
-
+# Handle secret retrieval
 @app.route('/secret/<secret_id>')
 def get_secret(secret_id):
     secrets = load_secrets()
     secret = secrets.get(secret_id)
 
     if secret:
-        # Delete the secret after it's viewed (one-time view)
+        # Delete after first view
         del secrets[secret_id]
         save_secrets(secrets)
-
         return render_template('show_secret.html', secret=secret)
     else:
-        return "<p>This link has expired or does not exist.</p>"
+        return render_template('not_found.html'), 404
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)), debug=True)
-
+    app.run(host='0.0.0.0', port=10000)
