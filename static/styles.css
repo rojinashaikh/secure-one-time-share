@@ -1,1 +1,126 @@
+/* General reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Center everything */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f8ff;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #333;
+}
+
+/* Wrapper to hold content */
+.container {
+  max-width: 800px;
+  width: 100%;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+h1 {
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #6fa3ef;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #5a8fdf;
+}
+
+/* Form styling */
+input[type="text"], textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+}
+
+input[type="text"]:focus, textarea:focus {
+  border-color: #6fa3ef;
+  outline: none;
+}
+
+textarea {
+  height: 150px;
+}
+
+/* Link styling */
+.secret-link {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #6fa3ef;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+}
+
+.secret-link:hover {
+  background-color: #5a8fdf;
+}
+
+.secret-link:active {
+  background-color: #4b87d6;
+}
+
+.secret-message {
+  font-size: 18px;
+  margin-bottom: 20px;
+  line-height: 1.5;
+  color: #333;
+}
+
+/* Responsive styling */
+@media (max-width: 600px) {
+  .container {
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+
+  button {
+    font-size: 14px;
+  }
+
+  input[type="text"], textarea {
+    font-size: 14px;
+  }
+}
 
