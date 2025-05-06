@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head><title>Create Secret</title></head>
+<head>
+    <title>Create Secret</title>
+</head>
 <body>
     <h1>Create a One-Time Secret</h1>
-    <form method="post" action="/create_secret">
-        <textarea name="secret" rows="5" cols="40" placeholder="Enter your secret here"></textarea><br>
-        <button type="submit">Create Secret</button>
+    <form action="/create_secret" method="POST">
+        <textarea name="secret" rows="5" cols="40" placeholder="Enter your secret..."></textarea><br>
+        <button type="submit">Generate Link</button>
     </form>
 </body>
 </html>
