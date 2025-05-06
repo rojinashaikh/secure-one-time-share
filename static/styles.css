@@ -1,4 +1,4 @@
-/* Apply some general resets */
+/* General resets */
 * {
     margin: 0;
     padding: 0;
@@ -11,38 +11,38 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Full viewport height */
-    padding: 0;
-    margin: 0;
+    height: 100vh;  /* Full viewport height */
     flex-direction: column;
+    text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
-/* Centering container */
+/* Container for the secret and other content */
 .container {
-    text-align: center;
     background-color: white;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    width: 100%; /* Make it take full width */
-    max-width: 600px; /* Limit the width */
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;  /* Make it responsive */
 }
 
-/* Heading styling */
+/* Heading style */
 h1 {
     font-size: 2rem;
     margin-bottom: 20px;
     color: #343a40;
 }
 
-/* Paragraph styling */
+/* Paragraph style */
 p {
     font-size: 1.2rem;
     color: #495057;
     margin-bottom: 20px;
 }
 
-/* Styling for the secret link */
+/* Styling the secret link */
 .secret-link {
     display: inline-block;
     padding: 15px 25px;
@@ -52,18 +52,17 @@ p {
     text-decoration: none;
     font-size: 18px;
     transition: background-color 0.3s ease;
-    word-wrap: break-word; /* Ensure the link breaks properly on smaller screens */
-    max-width: 100%;
-    word-break: break-word; /* Ensure the link breaks across lines if it's too long */
+    word-wrap: break-word;
     margin-bottom: 20px;
+    max-width: 100%;
 }
 
-/* Hover effect for secret link */
+/* Hover effect for the secret link */
 .secret-link:hover {
     background-color: #5a8fdf;
 }
 
-/* Active effect for secret link */
+/* Active state for secret link */
 .secret-link:active {
     background-color: #4b87d6;
 }
@@ -90,7 +89,7 @@ button:active {
     background-color: #1e7e34;
 }
 
-/* Form input styling */
+/* Form input and textarea */
 input[type="text"], textarea {
     width: 100%;
     padding: 10px;
@@ -100,25 +99,21 @@ input[type="text"], textarea {
     font-size: 16px;
 }
 
-/* Input focus effect */
+/* Focus effect on form elements */
 input[type="text"]:focus, textarea:focus {
     border-color: #28a745;
     outline: none;
 }
 
-/* Styling for the expired page */
+/* Expired message styling */
 .expired-message {
     font-size: 1.5rem;
     color: #dc3545;
     margin-bottom: 20px;
 }
 
-/* Responsive adjustments for mobile */
+/* Responsive styles for smaller screens */
 @media (max-width: 600px) {
-    body {
-        padding: 10px;
-    }
-
     .container {
         padding: 15px;
     }
