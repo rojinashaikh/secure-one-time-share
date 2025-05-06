@@ -2,27 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirm Your Secret</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJ6HMR7B1rK9nY8RzA6Y3mdO4amdd06w6zHc4yF1b5mYZmBC9K3aJ5kjJz6Y" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles.css">
+    <title>Secret Created</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <div class="container">
-        <h1 class="display-4">Confirm Your Secret</h1>
-        <p class="lead">Please confirm your secret before sharing:</p>
-        
-        <div class="card mb-3">
-            <div class="card-body">
-                <p class="card-text">{{ secret_text }}</p>
-            </div>
-        </div>
-
-        <form action="/confirm_secret" method="POST">
-            <button type="submit" class="btn btn-success btn-lg">Confirm and Share</button>
-        </form>
+        <h1>Your Secret is Ready!</h1>
+        <p>Share the link below:</p>
+        <a href="{{ secret_url }}" class="secret-link">{{ secret_url }}</a>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0VfDOfKlrYLRpQ+1l94oI1Z5hHDL+5AyyQb3c/1XkO+V1x7Q" crossorigin="anonymous"></script>
 </body>
 </html>
