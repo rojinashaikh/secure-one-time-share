@@ -1,138 +1,81 @@
-/* General resets */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
+    background: linear-gradient(to right, #6a11cb, #2575fc); /* Vibrant gradient background */
+    color: white;
     font-family: 'Arial', sans-serif;
-    background-color: #f8f9fa;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;  /* Full viewport height */
-    flex-direction: column;
-    text-align: center;
     margin: 0;
-    padding: 0;
 }
 
-/* Container for the secret and other content */
 .container {
-    background-color: white;
+    max-width: 600px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.7); /* Slightly transparent background for the container */
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 600px;  /* Make it responsive */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Heading style */
-h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #343a40;
+h1, p {
+    color: #fff;
 }
 
-/* Paragraph style */
-p {
-    font-size: 1.2rem;
-    color: #495057;
+.card {
+    background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent card */
+    border: 1px solid #fff;
+    color: #fff;
     margin-bottom: 20px;
 }
 
-/* Styling the secret link */
-.secret-link {
-    display: inline-block;
-    padding: 15px 25px;
-    background-color: #6fa3ef;
-    color: white;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 18px;
-    transition: background-color 0.3s ease;
-    word-wrap: break-word;
-    margin-bottom: 20px;
-    max-width: 100%;
+.card-body {
+    padding: 20px;
+    font-size: 1.2em;
 }
 
-/* Hover effect for the secret link */
-.secret-link:hover {
-    background-color: #5a8fdf;
-}
-
-/* Active state for secret link */
-.secret-link:active {
-    background-color: #4b87d6;
-}
-
-/* Button styling */
-button {
-    padding: 10px 20px;
-    background-color: #28a745;
+.btn-create,
+.btn-success,
+.btn-primary {
+    background: #ff5722; /* Vibrant orange color */
     color: white;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 20px;
-}
-
-/* Hover effect for button */
-button:hover {
-    background-color: #218838;
-}
-
-/* Active effect for button */
-button:active {
-    background-color: #1e7e34;
-}
-
-/* Form input and textarea */
-input[type="text"], textarea {
-    width: 100%;
-    padding: 10px;
+    font-size: 1.2em;
+    border-radius: 8px;
+    padding: 12px 30px;
     margin: 10px 0;
+}
+
+.btn-create:hover,
+.btn-success:hover,
+.btn-primary:hover {
+    background: #e64a19; /* Darker orange on hover */
+}
+
+.secret-link {
+    background-color: #4caf50; /* Green link color */
+    padding: 10px;
     border-radius: 5px;
-    border: 1px solid #ddd;
-    font-size: 16px;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 15px;
 }
 
-/* Focus effect on form elements */
-input[type="text"]:focus, textarea:focus {
-    border-color: #28a745;
-    outline: none;
+.secret-link:hover {
+    background-color: #45a049; /* Darker green on hover */
 }
 
-/* Expired message styling */
-.expired-message {
-    font-size: 1.5rem;
-    color: #dc3545;
+.lead {
+    font-size: 1.5em;
+}
+
+input, textarea {
+    background-color: #ffffff;
+    color: #333;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 15px;
+    width: 100%;
     margin-bottom: 20px;
-}
-
-/* Responsive styles for smaller screens */
-@media (max-width: 600px) {
-    .container {
-        padding: 15px;
-    }
-
-    h1 {
-        font-size: 1.5rem;
-    }
-
-    p {
-        font-size: 1rem;
-    }
-
-    .secret-link {
-        font-size: 16px;
-        padding: 12px 20px;
-    }
-
-    button {
-        font-size: 14px;
-        padding: 8px 15px;
-    }
 }
