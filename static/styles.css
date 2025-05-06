@@ -13,9 +13,11 @@ body {
     align-items: center;
     min-height: 100vh;
     flex-direction: column;
-    padding: 20px;
+    padding: 0;
+    margin: 0;
 }
 
+/* Container to center content */
 .container {
     max-width: 600px;
     width: 100%;
