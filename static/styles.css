@@ -1,81 +1,77 @@
+/* styles.css */
 body {
-    background: linear-gradient(to right, #6a11cb, #2575fc); /* Vibrant gradient background */
-    color: white;
-    font-family: 'Arial', sans-serif;
-    height: 100vh;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0;
+    background: linear-gradient(to right, #1e3c72, #2a5298);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
 }
 
 .container {
+    background-color: #ffffff;
+    color: #333;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
     max-width: 600px;
+    width: 100%;
     text-align: center;
-    background-color: rgba(0, 0, 0, 0.7); /* Slightly transparent background for the container */
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-h1, p {
-    color: #fff;
-}
-
-.card {
-    background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent card */
-    border: 1px solid #fff;
-    color: #fff;
-    margin-bottom: 20px;
-}
-
-.card-body {
-    padding: 20px;
-    font-size: 1.2em;
-}
-
-.btn-create,
-.btn-success,
-.btn-primary {
-    background: #ff5722; /* Vibrant orange color */
-    color: white;
-    border: none;
-    font-size: 1.2em;
+textarea,
+input[type="text"] {
+    width: 100%;
+    padding: 15px;
     border-radius: 8px;
-    padding: 12px 30px;
-    margin: 10px 0;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    font-size: 1em;
 }
 
-.btn-create:hover,
-.btn-success:hover,
-.btn-primary:hover {
-    background: #e64a19; /* Darker orange on hover */
+.btn {
+    background-color: #ff6f00;
+    border: none;
+    padding: 12px 25px;
+    color: white;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #e65100;
 }
 
 .secret-link {
-    background-color: #4caf50; /* Green link color */
-    padding: 10px;
-    border-radius: 5px;
-    color: white;
-    text-decoration: none;
+    margin-top: 20px;
     display: inline-block;
-    margin-top: 15px;
+    background-color: #0288d1;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    word-break: break-all;
 }
 
 .secret-link:hover {
-    background-color: #45a049; /* Darker green on hover */
+    background-color: #0277bd;
 }
 
-.lead {
-    font-size: 1.5em;
-}
-
-input, textarea {
-    background-color: #ffffff;
-    color: #333;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    padding: 15px;
-    width: 100%;
+.message {
+    font-size: 1.3em;
     margin-bottom: 20px;
+}
+
+.error {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+.success {
+    color: #388e3c;
+    font-weight: bold;
 }
