@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Secret Created</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Confirm to View</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Your Secret is Ready!</h1>
-        <p>Share the link below:</p>
-        <a href="{{ secret_url }}" class="secret-link">{{ secret_url }}</a>
-    </div>
+    <h2>This is a one-time secret link</h2>
+    <p>Click the button below to view it. It will be deleted immediately after.</p>
+    <form method="POST">
+        <button type="submit">Reveal Secret</button>
+    </form>
 </body>
 </html>
