@@ -1,14 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Secret</title>
-</head>
+<html>
+<head><title>Create Secret</title></head>
 <body>
-    <h1>Share a Secret</h1>
-    <form method="POST" action="/create_secret">
-        <textarea name="secret" placeholder="Enter your secret here"></textarea><br>
+    <h1>Create a One-Time Secret</h1>
+    <form method="post" action="/create_secret">
+        <textarea name="secret" rows="5" cols="40" placeholder="Enter your secret here"></textarea><br>
         <button type="submit">Create Secret</button>
     </form>
 </body>
