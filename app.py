@@ -9,11 +9,9 @@ app = Flask(__name__)
 SECRETS_FOLDER = 'secrets'
 os.makedirs(SECRETS_FOLDER, exist_ok=True)
 
-
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 @app.route('/create_secret', methods=['POST'])
 def create_secret():
@@ -29,7 +27,6 @@ def create_secret():
 
     share_url = url_for('secret', secret_id=secret_id, _external=True)
     return render_template('share.html', url=share_url)
-
 
 @app.route('/secret/<secret_id>', methods=['GET', 'POST'])
 def secret(secret_id):
@@ -48,6 +45,6 @@ def secret(secret_id):
     # On GET, show confirmation page
     return render_template("confirm.html", secret_id=secret_id)
 
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))  # Render uses PORT environment variable
+    app.run(host='0.0.0.0', port=port, debug=True)
