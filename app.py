@@ -59,4 +59,5 @@ def get_secret(secret_id):
         return "<p>This link has expired or does not exist.</p>"
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)), debug=True)
+
