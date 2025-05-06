@@ -1,126 +1,141 @@
-/* General reset */
+/* Apply some general resets */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Center everything */
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f0f8ff;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  color: #333;
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+    padding: 20px;
 }
 
-/* Wrapper to hold content */
 .container {
-  max-width: 800px;
-  width: 100%;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Heading styling */
 h1 {
-  font-size: 36px;
-  color: #333;
-  margin-bottom: 20px;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #343a40;
 }
 
+/* Paragraph styling */
 p {
-  font-size: 18px;
-  margin-bottom: 20px;
+    font-size: 1.2rem;
+    color: #495057;
+    margin-bottom: 20px;
 }
 
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #6fa3ef;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #5a8fdf;
-}
-
-/* Form styling */
-input[type="text"], textarea {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  margin-bottom: 15px;
-}
-
-input[type="text"]:focus, textarea:focus {
-  border-color: #6fa3ef;
-  outline: none;
-}
-
-textarea {
-  height: 150px;
-}
-
-/* Link styling */
+/* Styling for the secret link */
 .secret-link {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #6fa3ef;
-  color: white;
-  border-radius: 5px;
-  text-decoration: none;
-  font-size: 18px;
-  transition: background-color 0.3s ease;
+    display: inline-block;
+    padding: 15px 25px;
+    background-color: #6fa3ef;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+    word-wrap: break-word; /* Ensure the link breaks properly on smaller screens */
+    max-width: 100%;
+    word-break: break-word; /* Ensure the link breaks across lines if it's too long */
+    margin-bottom: 20px;
 }
 
+/* Hover effect for secret link */
 .secret-link:hover {
-  background-color: #5a8fdf;
+    background-color: #5a8fdf;
 }
 
+/* Active effect for secret link */
 .secret-link:active {
-  background-color: #4b87d6;
+    background-color: #4b87d6;
 }
 
-.secret-message {
-  font-size: 18px;
-  margin-bottom: 20px;
-  line-height: 1.5;
-  color: #333;
-}
-
-/* Responsive styling */
-@media (max-width: 600px) {
-  .container {
-    padding: 15px;
-  }
-
-  h1 {
-    font-size: 28px;
-  }
-
-  p {
+/* Button styling */
+button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
     font-size: 16px;
-  }
-
-  button {
-    font-size: 14px;
-  }
-
-  input[type="text"], textarea {
-    font-size: 14px;
-  }
+    margin-top: 20px;
 }
 
+/* Hover effect for button */
+button:hover {
+    background-color: #218838;
+}
+
+/* Active effect for button */
+button:active {
+    background-color: #1e7e34;
+}
+
+/* Form input styling */
+input[type="text"], textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
+
+/* Input focus effect */
+input[type="text"]:focus, textarea:focus {
+    border-color: #28a745;
+    outline: none;
+}
+
+/* Styling for the expired page */
+.expired-message {
+    font-size: 1.5rem;
+    color: #dc3545;
+    margin-bottom: 20px;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    .secret-link {
+        font-size: 16px;
+        padding: 12px 20px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+}
