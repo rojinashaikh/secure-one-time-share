@@ -16,26 +16,27 @@
             font-size: 2.5em;
             margin-bottom: 20px;
         }
-        button {
+        .link-container {
+            margin-top: 20px;
+        }
+        a {
             background-color: #ff5722;
             color: white;
-            font-size: 1.2em;
-            border: none;
-            padding: 10px 20px;
+            font-size: 1.5em;
+            padding: 12px 20px;
             border-radius: 5px;
-            cursor: pointer;
+            text-decoration: none;
         }
-        button:hover {
+        a:hover {
             background-color: #e64a19;
         }
     </style>
 </head>
 <body>
     <h1>Your Secret is Ready!</h1>
-    <p>Share this link to access your secret:</p>
-    <!-- Use an anchor tag for redirecting to the generated link -->
-    <a href="{{ url }}" target="_blank">
-        <button>Access Secret</button>
-    </a>
+    <p>Here’s your secret link to share:</p>
+    <div class="link-container">
+        <a href="{{ url }}" target="_blank">Click here to access the secret</a>
+    </div>
 </body>
 </html>
