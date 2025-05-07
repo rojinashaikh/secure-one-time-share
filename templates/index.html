@@ -1,90 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Secret</title>
-    <style>
-        /* Blue-to-Orange Gradient Background */
-        body {
-            background: linear-gradient(to right, #00b4d8, #f97316);
-            font-family: Arial, sans-serif;
-            color: #000; /* Set text color to black */
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Secret</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #00b4d8, #f97316);
+      font-family: Arial, sans-serif;
+      color: #000;
+      margin: 0;
+      padding: 0;
+    }
 
-        h1 {
-            text-align: center;
-            padding-top: 50px;
-            font-size: 36px;
-        }
+    h1 {
+      text-align: center;
+      padding-top: 50px;
+      font-size: 36px;
+    }
 
-        form {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            border-radius: 8px;
-            background-color: #fff; /* Full white background */
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Soft shadow */
-        }
+    form {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: #fff;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
 
-        label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 8px;
-        }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 8px;
+    }
 
-        input[type="text"], input[type="password"], input[type="file"], textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            color: #000; /* Black text in input */
-        }
+    input[type="text"], input[type="password"], input[type="file"], textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      color: #000;
+    }
 
-        textarea {
-            height: 150px;
-            resize: vertical;
-        }
+    textarea {
+      height: 150px;
+      resize: vertical;
+    }
 
-        button {
-            background-color: #0077b6;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-        }
+    button {
+      background-color: #0077b6;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
 
-        button:hover {
-            background-color: #023e8a;
-        }
-    </style>
+    button:hover {
+      background-color: #023e8a;
+    }
+
+    #key-container {
+      margin-top: 20px;
+      display: none;
+    }
+  </style>
 </head>
 <body>
-    <h1>Create a Secret</h1>
-    <form action="{{ url_for('create_secret') }}" method="POST" enctype="multipart/form-data">
-        <div>
-            <label for="secret">Text Secret (Optional):</label>
-            <textarea name="secret" id="secret" placeholder="Enter your secret here..."></textarea>
-        </div>
+  <h1>Create a Secret</h1>
 
-        <div>
-            <label for="file">Upload a File (Optional):</label>
-            <input type="file" name="file" id="file">
-        </div>
+  <form id="secretForm" action="{{ url_for('create_secret') }}" method="POST" enctype="multipart/form-data">
+    <div>
+      <label for="secret">Text Secret (Optional):</label>
+      <textarea name="secret" id="secret" placeholder="Enter your secret here..."></textarea>
+    </div>
 
-        <div>
-            <label for="password">Password (Optional):</label>
-            <input type="password" name="password" id="password" placeholder="Set a password (optional)">
-        </div>
+    <div>
+      <label for="file">Upload a File (Optional):</label>
+      <input type="file" name="file" id="file">
+    </div>
 
-        <div>
-            <button type="submit">Create Secret</button>
-        </div>
-    </form>
+    <div>
+      <label for="password">Password (Optional):</label>
+      <input type="password" name="password" id="password" placeholder="Set a password (optional)">
+    </div>
+
+    <div>
+      <button type="button" onclick="generateKeys()">Generate Key Pair</button>
+    </div>
+
+    <div id="key-container">
+      <label>Public Key (used to encrypt):</label>
+      <textarea id="publicKey" rows="5" readonly></textarea>
+
+      <label>Private Key (KEEP SAFE!):</label>
+      <textarea id="privateKey" rows="5" readonly></textarea>
+    </div>
+
+    <div>
+      <button type="submit">Create Secret</button>
+    </div>
+  </form>
+
+  <script>
+    async function generateKeys() {
+      const keyPair = await window.crypto.subtle.generateKey(
+        {
+          name: "RSA-OAEP",
+          modulusLength: 2048,
+          publicExponent: new Uint8Array([1, 0, 1]),
+          hash: "SHA-256",
+        },
+        true,
+        ["encrypt", "decrypt"]
+      );
+
+      const publicKey = await crypto.subtle.exportKey("spki", keyPair.publicKey);
+      const privateKey = await crypto.subtle.exportKey("pkcs8", keyPair.privateKey);
+
+      const pubB64 = btoa(String.fromCharCode(...new Uint8Array(publicKey)));
+      const privB64 = btoa(String.fromCharCode(...new Uint8Array(privateKey)));
+
+      document.getElementById("publicKey").value = pubB64;
+      document.getElementById("privateKey").value = privB64;
+      document.getElementById("key-container").style.display = "block";
+
+      window.generatedPublicKey = keyPair.publicKey;
+    }
+
+    document.getElementById("secretForm").addEventListener("submit", async function (e) {
+      if (!window.generatedPublicKey) return; // fallback to server-side if not using RSA
+
+      e.preventDefault();
+
+      const form = e.target;
+      const secretText = document.getElementById("secret").value;
+      const fileInput = document.getElementById("file");
+      let secretData = "";
+
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const arrayBuffer = await file.arrayBuffer();
+        secretData = new Uint8Array(arrayBuffer);
+      } else {
+        secretData = new TextEncoder().encode(secretText);
+      }
+
+      const encrypted = await crypto.subtle.encrypt(
+        {
+          name: "RSA-OAEP"
+        },
+        window.generatedPublicKey,
+        secretData
+      );
+
+      // Replace the plaintext secret with encrypted base64
+      const encryptedBase64 = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
+      document.getElementById("secret").value = encryptedBase64;
+
+      // Clear file input so it doesn’t send plaintext file
+      fileInput.value = "";
+
+      form.submit();
+    });
+  </script>
 </body>
 </html>
