@@ -115,21 +115,35 @@ def secret(secret_id):
 
         # If the secret is a file, serve it as a downloadable file
         if data.get("is_file"):
-            file_data = base64.b64decode(decrypted)
-            return send_file(
-                BytesIO(file_data),
-                mimetype=data["mimetype"],
-                as_attachment=True,
-                download_name=data["filename"]
+    # Store the decoded file in memory (or pass the base64 string to the template)
+        return render_template(
+        "secret.html",
+            is_file=True,
+            file_data=decrypted,
+            filename=data["filename"],
+            mimetype=data["mimetype"]
             )
         else:
-            return render_template("secret.html", secret=decrypted, is_file=False)
+        return render_template("secret.html", is_file=False, secret=decrypted)
+
 
     # Calculate the remaining time before the secret expires
     time_remaining = expires_at - datetime.utcnow()
 
     # Display the confirmation page
     return render_template("confirm.html", secret_id=secret_id, time_remaining=time_remaining, password_required=data['password_hash'])
+
+@app.route('/download_file', methods=['POST'])
+def download_file():
+    file_data = base64.b64decode(request.form['file_data'])
+    filename = request.form['filename']
+    mimetype = request.form['mimetype']
+    return send_file(
+        BytesIO(file_data),
+        mimetype=mimetype,
+        as_attachment=True,
+        download_name=filename
+    )
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 10000))  # Render uses the PORT environment variable
