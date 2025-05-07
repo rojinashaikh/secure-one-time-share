@@ -2,81 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirm Secret</title>
+    <title>Access Secret</title>
     <style>
         body {
-            background: linear-gradient(to right, #ff5722, #2575fc); /* Gradient from orange to blue */
+            background: linear-gradient(to right, #ff5722, #2575fc);
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
-            padding: 50px 0;
+            padding: 50px 20px;
         }
-        h2 {
-            font-size: 1.8em;
-            font-weight: bold;
+        h1 {
+            font-size: 2.5em;
         }
-        #secret-content {
-            display: none;
+        input, button {
             margin-top: 20px;
-            font-size: 1.5em;
-        }
-        #reveal-button {
-            background-color: #2575fc;
-            color: white;
+            padding: 10px;
             font-size: 1em;
-            padding: 10px 20px;
+            border-radius: 5px;
             border: none;
-            cursor: pointer;
-            transition: 0.3s;
         }
-        #reveal-button:hover {
+        input {
+            width: 250px;
+        }
+        button {
             background-color: #ff5722;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #e64a19;
         }
     </style>
 </head>
 <body>
-    <h2>Secret Waiting to Be Revealed</h2>
-    <button id="reveal-button" onclick="revealSecret()">Reveal Secret</button>
-    <div id="secret-content">
-        <h3>Your Secret:</h3>
-        <p id="secret-text"></p>
-    </div>
-
-    <script>
-        // Simulate secret data for demo purposes
-        const secretData = {
-            secretText: "This is a top-secret message that should only be revealed once.",
-            timestamp: Date.now(),
-            hasBeenViewed: false
-        };
-
-        const expirationTime = 3600000;  // 1 hour expiration time (in milliseconds)
-
-        // Function to reveal the secret
-        function revealSecret() {
-            const currentTimestamp = Date.now();
-
-            // Check if the secret is expired
-            if (currentTimestamp > secretData.timestamp + expirationTime) {
-                window.location.href = "expired.html";  // Redirect to expired page
-                return;
-            }
-
-            // Check if the secret has already been viewed
-            if (secretData.hasBeenViewed) {
-                window.location.href = "expired.html";  // Redirect to expired page
-                return;
-            }
-
-            // Mark the secret as viewed
-            secretData.hasBeenViewed = true;
-
-            // Display the secret
-            document.getElementById("secret-text").textContent = secretData.secretText;
-            document.getElementById("secret-content").style.display = "block";  // Show the secret content
-            document.getElementById("reveal-button").disabled = true;  // Disable the button after viewing
-        }
-    </script>
+    <h1>Enter Password to View the Secret</h1>
+    <form method="POST">
+        {% if password_required %}
+        <input type="password" name="password" placeholder="Enter password" required><br>
+        {% endif %}
+        <button type="submit">Reveal Secret</button>
+    </form>
 </body>
 </html>
