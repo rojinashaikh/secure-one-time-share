@@ -18,7 +18,7 @@ app = Flask(__name__)
 SECRETS_FOLDER = 'secrets'
 os.makedirs(SECRETS_FOLDER, exist_ok=True)
 
-# Set expiration time for secrets (e.g., 2 minutes)
+# Set expiration time for secrets
 EXPIRATION_TIME = timedelta(minutes=2)
 
 # Generate RSA key pair
@@ -28,7 +28,7 @@ private_key = rsa.generate_private_key(
 )
 public_key = private_key.public_key()
 
-# Save the private key to a file
+# Save keys to files
 with open("private_key.pem", "wb") as f:
     f.write(private_key.private_bytes(
         encoding=serialization.Encoding.PEM,
@@ -36,7 +36,6 @@ with open("private_key.pem", "wb") as f:
         encryption_algorithm=serialization.NoEncryption()
     ))
 
-# Save the public key to a file
 with open("public_key.pem", "wb") as f:
     f.write(public_key.public_bytes(
         encoding=serialization.Encoding.PEM,
@@ -115,7 +114,6 @@ def secret(secret_id):
         os.remove(filepath)
         return render_template("expired.html")
 
-    # Do not decrypt on server, send encrypted payload to client for RSA decryption
     time_remaining = expires_at - datetime.utcnow()
 
     return render_template(
