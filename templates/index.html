@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Secret</title>
     <style>
-        /* Blue-to-Orange Gradient Background */
         body {
             background: linear-gradient(to right, #00b4d8, #f97316);
             font-family: Arial, sans-serif;
-            color: #000; /* Set text color to black */
+            color: #000;
             margin: 0;
             padding: 0;
         }
@@ -25,8 +24,8 @@
             margin: 50px auto;
             padding: 20px;
             border-radius: 8px;
-            background-color: #fff; /* Full white background */
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Soft shadow */
+            background-color: #fff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
 
         label {
@@ -41,7 +40,7 @@
             margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            color: #000; /* Black text in input */
+            color: #000;
         }
 
         textarea {
@@ -66,7 +65,7 @@
 </head>
 <body>
     <h1>Create a Secret</h1>
-    <form id="secretForm" action="{{ url_for('create_secret') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ url_for('create_secret') }}" method="POST" enctype="multipart/form-data">
         <div>
             <label for="secret">Text Secret (Optional):</label>
             <textarea name="secret" id="secret" placeholder="Enter your secret here..."></textarea>
@@ -96,86 +95,5 @@ NQIDAQAB
             <button type="submit">Create Secret</button>
         </div>
     </form>
-
-    <script>
-        async function encryptSecret(secret, publicKey) {
-            const enc = new TextEncoder();
-            const data = enc.encode(secret);
-
-            // Convert PEM to ArrayBuffer
-            const pemHeader = "-----BEGIN PUBLIC KEY-----";
-            const pemFooter = "-----END PUBLIC KEY-----";
-            const pemContents = publicKey.substring(pemHeader.length, publicKey.length - pemFooter.length);
-            const binaryDerString = window.atob(pemContents);
-            const binaryDer = str2ab(binaryDerString);
-
-            // Import the public key
-            const importedPublicKey = await window.crypto.subtle.importKey(
-                "spki",
-                binaryDer,
-                {
-                    name: "RSA-OAEP",
-                    hash: { name: "SHA-256" }
-                },
-                false,
-                ["encrypt"]
-            );
-
-            // Encrypt the secret
-            const encryptedData = await window.crypto.subtle.encrypt(
-                {
-                    name: "RSA-OAEP"
-                },
-                importedPublicKey,
-                data
-            );
-
-            return encryptedData;
-        }
-
-        function str2ab(str) {
-            const buf = new ArrayBuffer(str.length);
-            const bufView = new Uint8Array(buf);
-            for (let i = 0, strLen = str.length; i < strLen; i++) {
-                bufView[i] = str.charCodeAt(i);
-            }
-            return buf;
-        }
-
-        document.getElementById("secretForm").onsubmit = async function(event) {
-            event.preventDefault();
-
-            const secret = document.getElementById("secret").value;
-            const file = document.getElementById("file").files[0];
-            const publicKey = document.getElementById("public_key").value;
-
-            let encryptedSecret;
-
-            // Encrypt text secret if provided
-            if (secret) {
-                encryptedSecret = await encryptSecret(secret, publicKey);
-            }
-
-            // Prepare form data
-            const formData = new FormData();
-           ('encrypted', new Blob([encryptedSecret]));
-            formData.append('secret', secret);
-            formData.append('public_key', publicKey);
-            if (file) {
-                formData.append('file', file);
-            }
-
-            // Send the encrypted secret to the server
-            fetch('{{ url_for("create_secret") }}', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                window.location.href = data.share_url;
-            })
-            .catch(error => console.error('Error:', error));
-        };
-    </script>
 </body>
 </html>
