@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Confirm to View</title>
-  <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Secret</title>
+    <style>
         body {
-            background: linear-gradient(to right, #ff5722, #2575fc); /* Gradient from orange to blue */
+            background: linear-gradient(to right, #ff5722, #2575fc);
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
@@ -12,15 +14,6 @@
         }
         h1 {
             font-size: 2.5em;
-            margin-bottom: 20px;
-        }
-        textarea {
-            background-color: #ffffff;
-            color: #333;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            padding: 15px;
-            width: 80%;
             margin-bottom: 20px;
         }
         button {
@@ -38,20 +31,19 @@
     </style>
 </head>
 <body>
-    <h2>This is a one-time secret link</h2>
-    <p>Click the button below to view it. It will be deleted immediately after.</p>
+    <h1>Your secret is almost ready!</h1>
+    <p>Your secret will expire in: <span id="time_remaining">{{ time_remaining }}</span></p>
     
-    <!-- Password input field if password is required -->
     {% if password_required %}
-        <form method="POST">
+        <form action="/secret/{{ secret_id }}" method="POST">
             <label for="password">Enter Password:</label><br>
-            <input type="password" name="password" id="password" required><br><br>
-            <button type="submit">Reveal Secret</button>
+            <input type="password" name="password" id="password"><br><br>
+            <button type="submit">Unlock Secret</button>
         </form>
     {% else %}
-        <form method="POST">
-            <button type="submit">Reveal Secret</button>
-        </form>
+        <a href="/secret/{{ secret_id }}">
+            <button>Access Secret</button>
+        </a>
     {% endif %}
 </body>
 </html>
