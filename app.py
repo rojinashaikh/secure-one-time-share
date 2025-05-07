@@ -3,10 +3,8 @@ import os
 import json
 import uuid
 import base64
-from cryptography.fernet import Fernet
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
-from werkzeug.security import generate_password_hash, check_password_hash
 from io import BytesIO
 
 # Load environment variables
@@ -18,12 +16,6 @@ app = Flask(__name__)
 SECRETS_FOLDER = 'secrets'
 os.makedirs(SECRETS_FOLDER, exist_ok=True)
 
-# Load the encryption key from the environment variable
-FERNET_KEY = os.getenv('FERNET_KEY')
-if not FERNET_KEY:
-    raise ValueError("FERNET_KEY missing in environment.")
-fernet = Fernet(FERNET_KEY)
-
 # Set expiration time for secrets (e.g., 2 minutes)
 EXPIRATION_TIME = timedelta(minutes=2)
 
@@ -33,21 +25,18 @@ def index():
 
 @app.route('/create_secret', methods=['POST'])
 def create_secret():
-    password = request.form.get('password')
+    public_key_pem = request.form.get('public_key')
     text_secret = request.form.get('secret')
     uploaded_file = request.files.get('file')
 
-    # If neither text secret nor file is provided, return an error
     if not text_secret and not uploaded_file:
         return "Provide a secret or upload a file.", 400
 
-    # Set default values for file-related variables
     is_file = False
     secret_content = ""
     filename = ""
     mimetype = ""
 
-    # If file is uploaded
     if uploaded_file and uploaded_file.filename:
         file_bytes = uploaded_file.read()
         base64_file = base64.b64encode(file_bytes).decode()
@@ -56,82 +45,56 @@ def create_secret():
         mimetype = uploaded_file.mimetype
         is_file = True
     elif text_secret:
-        # If no file uploaded, use the text secret
         secret_content = text_secret
 
-    # Encrypt the secret (text or file content)
-    encrypted = fernet.encrypt(secret_content.encode()).decode()
+    # Save as base64 (so client-side JS can encrypt)
     secret_id = str(uuid.uuid4())
     filepath = os.path.join(SECRETS_FOLDER, f"{secret_id}.json")
     created_at = datetime.utcnow()
     expires_at = created_at + EXPIRATION_TIME
-    password_hash = generate_password_hash(password) if password else None
 
-    # Save the encrypted secret and metadata to a JSON file
+    # Store the encrypted content directly (already encrypted by JS)
+    encrypted_content = request.form.get('encrypted')
+
     with open(filepath, 'w') as f:
         json.dump({
-            "secret": encrypted,
+            "secret": encrypted_content,
             "created_at": created_at.isoformat(),
             "expires_at": expires_at.isoformat(),
-            "password_hash": password_hash,
             "is_file": is_file,
             "filename": filename,
             "mimetype": mimetype
         }, f)
 
-    # Generate the shareable link for the secret
     share_url = url_for('secret', secret_id=secret_id, _external=True)
     return render_template('share.html', url=share_url)
 
-@app.route('/secret/<secret_id>', methods=['GET', 'POST'])
+@app.route('/secret/<secret_id>', methods=['GET'])
 def secret(secret_id):
     filepath = os.path.join(SECRETS_FOLDER, f"{secret_id}.json")
-
-    # Check if the secret file exists
     if not os.path.exists(filepath):
         return render_template("expired.html")
 
-    # Load secret data from the file
     with open(filepath, 'r') as f:
         data = json.load(f)
 
     expires_at = datetime.fromisoformat(data['expires_at'])
 
-    # Check if the secret has expired
     if datetime.utcnow() > expires_at:
         os.remove(filepath)
         return render_template("expired.html")
 
-    if request.method == 'POST':
-        password = request.form.get('password')
-
-        # Check password if required
-        if data['password_hash'] and not check_password_hash(data['password_hash'], password):
-            return "Invalid password.", 403
-
-        # Decrypt the secret
-        decrypted = fernet.decrypt(data['secret'].encode()).decode()
-        os.remove(filepath)
-
-        if data.get("is_file"):
-            return render_template(
-                "secret.html",
-                is_file=True,
-                file_data=decrypted,
-                filename=data["filename"],
-                mimetype=data["mimetype"]
-            )
-        else:
-            return render_template("secret.html", is_file=False, secret=decrypted)
-
-    # Calculate the remaining time before expiration
+    # Do not decrypt on server, send encrypted payload to client for RSA decryption
     time_remaining = expires_at - datetime.utcnow()
 
     return render_template(
         "confirm.html",
         secret_id=secret_id,
-        time_remaining=time_remaining,
-        password_required=bool(data['password_hash'])
+        encrypted=data['secret'],
+        is_file=data['is_file'],
+        filename=data['filename'],
+        mimetype=data['mimetype'],
+        time_remaining=time_remaining
     )
 
 @app.route('/download_file', methods=['POST'])
@@ -147,5 +110,5 @@ def download_file():
     )
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 10000))  # Adjusted for environments like Render
+    port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port, debug=True)
