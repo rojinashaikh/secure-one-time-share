@@ -4,6 +4,7 @@ import json
 import uuid
 from cryptography.fernet import Fernet
 from dotenv import load_dotenv
+from datetime import datetime, timedelta
 
 # Load environment variables from a .env file
 load_dotenv()
@@ -23,6 +24,9 @@ if not FERNET_KEY:
 
 fernet = Fernet(FERNET_KEY)
 
+# Set expiration time for secrets (e.g., 1 hour)
+EXPIRATION_TIME = timedelta(hours=1)
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -39,9 +43,17 @@ def create_secret():
     secret_id = str(uuid.uuid4())
     filepath = os.path.join(SECRETS_FOLDER, f"{secret_id}.json")
 
-    # Save encrypted secret to file
+    # Store the current time and expiration time in the secret file
+    created_at = datetime.utcnow()
+    expires_at = created_at + EXPIRATION_TIME
+
+    # Save encrypted secret and expiration time to file
     with open(filepath, 'w') as f:
-        json.dump({"secret": encrypted_secret}, f)
+        json.dump({
+            "secret": encrypted_secret,
+            "created_at": created_at.isoformat(),
+            "expires_at": expires_at.isoformat()
+        }, f)
 
     share_url = url_for('secret', secret_id=secret_id, _external=True)
     return render_template('share.html', url=share_url)
@@ -53,12 +65,20 @@ def secret(secret_id):
     if not os.path.exists(filepath):
         return render_template("expired.html")
 
+    # Load secret data from the file
+    with open(filepath, 'r') as f:
+        secret_data = json.load(f)
+
+    # Parse expiration time
+    expires_at = datetime.fromisoformat(secret_data['expires_at'])
+
+    # Check if the secret has expired
+    if datetime.utcnow() > expires_at:
+        os.remove(filepath)  # Delete the secret if it has expired
+        return render_template("expired.html")
+
     if request.method == 'POST':
         # On POST, reveal and delete the secret
-        with open(filepath, 'r') as f:
-            secret_data = json.load(f)
-
-        # Decrypt the secret before displaying
         decrypted_secret = fernet.decrypt(secret_data['secret'].encode()).decode()
 
         # Remove the secret after revealing
