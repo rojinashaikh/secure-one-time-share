@@ -2,27 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirm Secret</title>
+    <title>Access Secret</title>
     <style>
         body {
             background: linear-gradient(to right, #ff5722, #2575fc);
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
-            padding: 50px 0;
+            padding: 50px 20px;
         }
         h1 {
             font-size: 2.5em;
-            margin-bottom: 20px;
+        }
+        input, button {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: none;
+        }
+        input {
+            width: 250px;
         }
         button {
             background-color: #ff5722;
             color: white;
-            font-size: 1.2em;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
             cursor: pointer;
         }
         button:hover {
@@ -31,19 +35,12 @@
     </style>
 </head>
 <body>
-    <h1>Your secret is almost ready!</h1>
-    <p>Your secret will expire in: <span id="time_remaining">{{ time_remaining }}</span></p>
-    
-    {% if password_required %}
-        <form action="/secret/{{ secret_id }}" method="POST">
-            <label for="password">Enter Password:</label><br>
-            <input type="password" name="password" id="password"><br><br>
-            <button type="submit">Unlock Secret</button>
-        </form>
-    {% else %}
-        <a href="/secret/{{ secret_id }}">
-            <button>Access Secret</button>
-        </a>
-    {% endif %}
+    <h1>Enter Password to View the Secret</h1>
+    <form method="POST">
+        {% if password_required %}
+        <input type="password" name="password" placeholder="Enter password" required><br>
+        {% endif %}
+        <button type="submit">Reveal Secret</button>
+    </form>
 </body>
 </html>
