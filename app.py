@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, send_file
+from flask import Flask, render_template, request, redirect, url_for
 import os
 import json
 import uuid
@@ -6,8 +6,7 @@ import base64
 from cryptography.fernet import Fernet
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
-from werkzeug.security import generate_password_hash, check_password_hash
-from io import BytesIO
+from werkzeug.security import generate_password_hash
 
 # Load environment variables
 load_dotenv()
@@ -77,8 +76,8 @@ def create_secret():
 
     # Generate the shareable link for the secret
     share_url = url_for('secret', secret_id=secret_id, _external=True)
-
-    # Return the share URL immediately after creation
+    
+    # Return the URL to the user to share immediately
     return render_template('share.html', url=share_url)
 
 @app.route('/secret/<secret_id>', methods=['GET', 'POST'])
