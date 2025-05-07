@@ -9,8 +9,6 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 from io import BytesIO
 
-
-
 # Load environment variables
 load_dotenv()
 
@@ -79,8 +77,6 @@ def create_secret():
 
     # Generate the shareable link for the secret
     share_url = url_for('secret', secret_id=secret_id, _external=True)
-    
-    # Return the URL to the user to share immediately
     return render_template('share.html', url=share_url)
 
 @app.route('/secret/<secret_id>', methods=['GET', 'POST'])
@@ -105,7 +101,7 @@ def secret(secret_id):
     if request.method == 'POST':
         password = request.form.get('password')
 
-        # Check if a password is required and if the user provided one
+        # Check password if required
         if data['password_hash'] and not check_password_hash(data['password_hash'], password):
             return "Invalid password.", 403
 
@@ -113,26 +109,26 @@ def secret(secret_id):
         decrypted = fernet.decrypt(data['secret'].encode()).decode()
         os.remove(filepath)
 
-        # If the secret is a file, serve it as a downloadable file
-            if data.get("is_file"):
-        # Store the decoded file in memory (or pass the base64 string to the template)
-        return render_template(
-            "secret.html",
-            is_file=True,
-            file_data=decrypted,
-            filename=data["filename"],
-            mimetype=data["mimetype"]
-        )
-    else:
-        return render_template("secret.html", is_file=False, secret=decrypted)
+        if data.get("is_file"):
+            return render_template(
+                "secret.html",
+                is_file=True,
+                file_data=decrypted,
+                filename=data["filename"],
+                mimetype=data["mimetype"]
+            )
+        else:
+            return render_template("secret.html", is_file=False, secret=decrypted)
 
-
-
-    # Calculate the remaining time before the secret expires
+    # Calculate the remaining time before expiration
     time_remaining = expires_at - datetime.utcnow()
 
-    # Display the confirmation page
-    return render_template("confirm.html", secret_id=secret_id, time_remaining=time_remaining, password_required=data['password_hash'])
+    return render_template(
+        "confirm.html",
+        secret_id=secret_id,
+        time_remaining=time_remaining,
+        password_required=bool(data['password_hash'])
+    )
 
 @app.route('/download_file', methods=['POST'])
 def download_file():
@@ -147,5 +143,5 @@ def download_file():
     )
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 10000))  # Render uses the PORT environment variable
+    port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port, debug=True)
