@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Secret</title>
     <style>
+        /* Blue-to-Orange Gradient Background */
         body {
             background: linear-gradient(to right, #00b4d8, #f97316);
             font-family: Arial, sans-serif;
-            color: #000;
+            color: #000; /* Set text color to black */
             margin: 0;
             padding: 0;
         }
@@ -24,8 +25,8 @@
             margin: 50px auto;
             padding: 20px;
             border-radius: 8px;
-            background-color: #fff;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            background-color: #fff; /* Full white background */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Soft shadow */
         }
 
         label {
@@ -40,7 +41,7 @@
             margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            color: #000;
+            color: #000; /* Black text in input */
         }
 
         textarea {
@@ -77,18 +78,8 @@
         </div>
 
         <div>
-            <label for="public_key">Public Key:</label>
-            <textarea name="public_key" id="public_key" placeholder="Enter Public Key" required>
------BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsADRa/IXFPkL8PBz25PD
-YioHbqpQlEVSatPCxE62C1CjpFAJnqpxTmjng0soTvUlISHsguC8XDK35dufddaA
-Fy7WSpjsbouYSnFE2om/M1EdWEDlLP2s84HXuFtY4XKVPPsKXOMdm1qiaJdmhOMa
-2KFeU58R5eoQ5rTFg3JZefFOZKDvwWx6NO6BHHpz12XzL3DCUoWnNdsu6EFdxA+y
-Eqhvn7YDIZUuQwiwAqTzMwU29s6xO0jqI8pW7FQJ7ZNuca4dZxmSQgPG6BukeN6f
-DWui9QqOHE/CaAsKGXbDBCVxREFItOp+lV3mKaiZ1KMVRoztDEiwH+viYGv1LYjj
-NQIDAQAB
------END PUBLIC KEY-----
-            </textarea>
+            <label for="password">Password (Optional):</label>
+            <input type="password" name="password" id="password" placeholder="Set a password (optional)">
         </div>
 
         <div>
