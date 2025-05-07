@@ -41,6 +41,7 @@ def create_secret():
     if not text_secret and not uploaded_file:
         return "Provide a secret or upload a file.", 400
 
+    # Set default values for file-related variables
     is_file = False
     secret_content = ""
     filename = ""
@@ -54,8 +55,8 @@ def create_secret():
         filename = uploaded_file.filename
         mimetype = uploaded_file.mimetype
         is_file = True
-    else:
-        # If no file, use the text secret
+    elif text_secret:
+        # If no file uploaded, use the text secret
         secret_content = text_secret
 
     # Encrypt the secret (text or file content)
