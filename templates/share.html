@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Share Secret</title>
     <style>
         body {
@@ -10,22 +12,14 @@
             text-align: center;
             padding: 50px 0;
         }
-        h2 {
+        h1 {
             font-size: 2.5em;
             margin-bottom: 20px;
-        }
-        input {
-            width: 80%;
-            padding: 10px;
-            font-size: 1em;
-            border-radius: 8px;
-            border: none;
-            margin-bottom: 10px;
         }
         button {
             background-color: #ff5722;
             color: white;
-            font-size: 1.1em;
+            font-size: 1.2em;
             border: none;
             padding: 10px 20px;
             border-radius: 5px;
@@ -37,19 +31,10 @@
     </style>
 </head>
 <body>
-    <h2>Share this Secret Link</h2>
-    <input type="text" id="secretUrl" value="{{ url }}" readonly>
-    <br>
-    <button onclick="copyLink()">Copy Link</button>
-
-    <script>
-        function copyLink() {
-            var copyText = document.getElementById("secretUrl");
-            copyText.select();
-            copyText.setSelectionRange(0, 99999); // For mobile
-            document.execCommand("copy");
-            alert("Copied the link: " + copyText.value);
-        }
-    </script>
+    <h1>Your Secret is Ready!</h1>
+    <p>Share this link to access your secret:</p>
+    <a href="{{ url }}" target="_blank">
+        <button>Access Secret</button>
+    </a>
 </body>
 </html>
