@@ -41,6 +41,11 @@
     <h1>Create a One-Time Secret</h1>
     <form action="/create_secret" method="POST">
         <textarea name="secret" rows="5" placeholder="Enter your secret..." required></textarea><br>
+        
+        <!-- Password input field -->
+        <label for="password">Password (Optional):</label><br>
+        <input type="password" name="password" id="password"><br><br>
+
         <button type="submit">Generate Link</button>
     </form>
 </body>
