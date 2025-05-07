@@ -114,17 +114,18 @@ def secret(secret_id):
         os.remove(filepath)
 
         # If the secret is a file, serve it as a downloadable file
-        if data.get("is_file"):
-    # Store the decoded file in memory (or pass the base64 string to the template)
+            if data.get("is_file"):
+        # Store the decoded file in memory (or pass the base64 string to the template)
         return render_template(
-        "secret.html",
+            "secret.html",
             is_file=True,
             file_data=decrypted,
             filename=data["filename"],
             mimetype=data["mimetype"]
-            )
-        else:
+        )
+    else:
         return render_template("secret.html", is_file=False, secret=decrypted)
+
 
 
     # Calculate the remaining time before the secret expires
