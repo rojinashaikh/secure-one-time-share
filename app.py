@@ -37,6 +37,7 @@ def create_secret():
     text_secret = request.form.get('secret')
     uploaded_file = request.files.get('file')
 
+    # If neither text secret nor file is provided, return an error
     if not text_secret and not uploaded_file:
         return "Provide a secret or upload a file.", 400
 
@@ -45,6 +46,7 @@ def create_secret():
     filename = ""
     mimetype = ""
 
+    # If file is uploaded
     if uploaded_file and uploaded_file.filename:
         file_bytes = uploaded_file.read()
         base64_file = base64.b64encode(file_bytes).decode()
@@ -53,6 +55,7 @@ def create_secret():
         mimetype = uploaded_file.mimetype
         is_file = True
     else:
+        # If no file, use the text secret
         secret_content = text_secret
 
     # Encrypt the secret (text or file content)
@@ -143,5 +146,5 @@ def download_file():
     )
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 10000))
+    port = int(os.environ.get("PORT", 10000))  # Adjusted for environments like Render
     app.run(host='0.0.0.0', port=port, debug=True)
