@@ -7,7 +7,7 @@
     <style>
         /* Blue-to-Orange Gradient Background */
         body {
-            background: linear-gradient(to right, #00b4d8, #f97316);
+           d8, #f97316);
             font-family: Arial, sans-serif;
             color: #000; /* Set text color to black */
             margin: 0;
@@ -92,10 +92,17 @@
             const enc = new TextEncoder();
             const data = enc.encode(secret);
 
+            // Convert PEM to ArrayBuffer
+            const pemHeader = "-----BEGIN PUBLIC KEY-----";
+            const pemFooter = "-----END PUBLIC KEY-----";
+            const pemContents = publicKey.substring(pemHeader.length, publicKey.length - pemFooter.length);
+            const binaryDerString = window.atob(pemContents);
+            const binaryDer = str2ab(binaryDerString);
+
             // Import the public key
             const importedPublicKey = await window.crypto.subtle.importKey(
-                "pem",
-                publicKey,
+                "spki",
+                binaryDer,
                 {
                     name: "RSA-OAEP",
                     hash: { name: "SHA-256" }
@@ -116,6 +123,15 @@
             return encryptedData;
         }
 
+        function str2ab(str) {
+            const buf = new ArrayBuffer(str.length);
+            const bufView = new Uint8Array(buf);
+            for (let i = 0, strLen = str.length; i < strLen; i++) {
+                bufView[i] = str.charCodeAt(i);
+            }
+            return buf;
+        }
+
         document.getElementById("secretForm").onsubmit = async function(event) {
             event.preventDefault();
 
@@ -132,7 +148,7 @@
 
             // Prepare form data
             const formData = new FormData();
-            formData.append('encrypted', encryptedSecret);
+            formData.append('encrypted', new Blob([encryptedSecret]));
             formData.append('secret', secret);
             formData.append('public_key', publicKey);
             if (file) {
