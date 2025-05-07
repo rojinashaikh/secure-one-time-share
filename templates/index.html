@@ -35,6 +35,17 @@
         button:hover {
             background-color: #e64a19;
         }
+        label {
+            font-size: 1.1em;
+            color: white;
+        }
+        input[type="password"] {
+            padding: 10px;
+            width: 80%;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -44,7 +55,7 @@
         
         <!-- Password input field -->
         <label for="password">Password (Optional):</label><br>
-        <input type="password" name="password" id="password"><br><br>
+        <input type="password" name="password" id="password" placeholder="Enter password (optional)"><br><br>
 
         <button type="submit">Generate Link</button>
     </form>
