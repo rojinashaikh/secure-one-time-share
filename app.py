@@ -5,6 +5,7 @@ import uuid
 from cryptography.fernet import Fernet
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # Load environment variables from a .env file
 load_dotenv()
@@ -36,6 +37,7 @@ def index():
 @app.route('/create_secret', methods=['POST'])
 def create_secret():
     secret_text = request.form.get('secret')
+    password = request.form.get('password')  # Get password if provided
     if not secret_text:
         return "No secret provided.", 400
 
@@ -49,12 +51,16 @@ def create_secret():
     created_at = datetime.utcnow()
     expires_at = created_at + EXPIRATION_TIME
 
-    # Save encrypted secret and expiration time to file
+    # If a password is provided, hash it and save it
+    password_hash = generate_password_hash(password) if password else None
+
+    # Save encrypted secret, expiration time, and password hash to file
     with open(filepath, 'w') as f:
         json.dump({
             "secret": encrypted_secret,
             "created_at": created_at.isoformat(),
-            "expires_at": expires_at.isoformat()
+            "expires_at": expires_at.isoformat(),
+            "password_hash": password_hash
         }, f)
 
     share_url = url_for('secret', secret_id=secret_id, _external=True)
@@ -81,6 +87,12 @@ def secret(secret_id):
         return render_template("expired.html")
 
     if request.method == 'POST':
+        password = request.form.get('password')
+
+        # Check if a password is required and if the user provided one
+        if secret_data['password_hash'] and not check_password_hash(secret_data['password_hash'], password):
+            return "Invalid password.", 403
+
         # On POST, reveal and delete the secret
         decrypted_secret = fernet.decrypt(secret_data['secret'].encode()).decode()
 
@@ -91,7 +103,7 @@ def secret(secret_id):
 
     # On GET, show confirmation page with remaining time
     time_remaining = expires_at - datetime.utcnow()
-    return render_template("confirm.html", secret_id=secret_id, time_remaining=time_remaining)
+    return render_template("confirm.html", secret_id=secret_id, time_remaining=time_remaining, password_required=secret_data['password_hash'])
 
 
 if __name__ == '__main__':
