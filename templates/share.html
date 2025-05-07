@@ -2,31 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secret Link</title>
+    <title>Your Secret Link</title>
     <style>
         body {
             background: linear-gradient(to right, #ff5722, #2575fc);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
             color: white;
             font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
         }
-        a {
-            color: #ffffff;
-            font-size: 1.2em;
-            word-break: break-all;
-            text-decoration: underline;
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
         }
-        a:hover {
-            color: #ffccbc;
+        input.link-box {
+            width: 80%;
+            max-width: 600px;
+            font-size: 1.1em;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <a href="{{ url }}" target="_blank">{{ url }}</a>
+    <h1>Your Secret Link</h1>
+    <p>Copy and share this link. It can be accessed only once before expiration:</p>
+    <input class="link-box" type="text" value="{{ url }}" readonly onclick="this.select(); document.execCommand('copy');">
 </body>
 </html>
