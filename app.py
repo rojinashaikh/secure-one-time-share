@@ -7,6 +7,8 @@ from cryptography.fernet import Fernet
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
+from io import BytesIO
+
 
 
 # Load environment variables
