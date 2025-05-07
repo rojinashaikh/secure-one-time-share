@@ -25,12 +25,13 @@ if not FERNET_KEY:
 fernet = Fernet(FERNET_KEY)
 
 # Set expiration time for secrets (e.g., 1 hour)
-expiration_time = timedelta(minutes=2)  # Set expiration to 10 minutes
+EXPIRATION_TIME = timedelta(minutes=2)  # Set expiration to 2 minutes for testing
 
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/create_secret', methods=['POST'])
 def create_secret():
@@ -58,6 +59,7 @@ def create_secret():
 
     share_url = url_for('secret', secret_id=secret_id, _external=True)
     return render_template('share.html', url=share_url)
+
 
 @app.route('/secret/<secret_id>', methods=['GET', 'POST'])
 def secret(secret_id):
@@ -87,8 +89,10 @@ def secret(secret_id):
 
         return render_template("secret.html", secret=decrypted_secret)
 
-    # On GET, show confirmation page
-    return render_template("confirm.html", secret_id=secret_id)
+    # On GET, show confirmation page with remaining time
+    time_remaining = expires_at - datetime.utcnow()
+    return render_template("confirm.html", secret_id=secret_id, time_remaining=time_remaining)
+
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 10000))  # Render uses PORT environment variable
