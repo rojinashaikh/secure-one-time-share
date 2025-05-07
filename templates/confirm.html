@@ -1,55 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Confirm - Your Secret</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(to right, #007bff, #ffa500);
-      color: white;
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      text-align: center;
-    }
-
-    h2 {
-      margin-bottom: 20px;
-    }
-
-    .message {
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
-
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      color: white;
-      background-color: #ff7f00;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #e67300;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Secret</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #ff5722, #2575fc); /* Gradient from orange to blue */
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px 0;
+        }
+        h2 {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        #secret-content {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.5em;
+        }
+        #reveal-button {
+            background-color: #2575fc;
+            color: white;
+            font-size: 1em;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        #reveal-button:hover {
+            background-color: #ff5722;
+        }
+    </style>
 </head>
 <body>
+    <h2>Secret Waiting to Be Revealed</h2>
+    <button id="reveal-button" onclick="revealSecret()">Reveal Secret</button>
+    <div id="secret-content">
+        <h3>Your Secret:</h3>
+        <p id="secret-text"></p>
+    </div>
 
-  <h2>Secret Confirmation</h2>
-  <div class="message">
-    Your secret is ready! Click the button below to reveal it.
-  </div>
+    <script>
+        // Simulate secret data for demo purposes
+        const secretData = {
+            secretText: "This is a top-secret message that should only be revealed once.",
+            timestamp: Date.now(),
+            hasBeenViewed: false
+        };
 
-  <button onclick="window.location.href='secret.html'">Reveal Secret</button>
+        const expirationTime = 3600000;  // 1 hour expiration time (in milliseconds)
 
+        // Function to reveal the secret
+        function revealSecret() {
+            const currentTimestamp = Date.now();
+
+            // Check if the secret is expired
+            if (currentTimestamp > secretData.timestamp + expirationTime) {
+                window.location.href = "expired.html";  // Redirect to expired page
+                return;
+            }
+
+            // Check if the secret has already been viewed
+            if (secretData.hasBeenViewed) {
+                window.location.href = "expired.html";  // Redirect to expired page
+                return;
+            }
+
+            // Mark the secret as viewed
+            secretData.hasBeenViewed = true;
+
+            // Display the secret
+            document.getElementById("secret-text").textContent = secretData.secretText;
+            document.getElementById("secret-content").style.display = "block";  // Show the secret content
+            document.getElementById("reveal-button").disabled = true;  // Disable the button after viewing
+        }
+    </script>
 </body>
 </html>
