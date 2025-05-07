@@ -2,12 +2,17 @@ from flask import Flask, render_template, request, redirect, url_for
 import os
 import json
 import uuid
+from cryptography.fernet import Fernet
 
 app = Flask(__name__)
 
 # Folder where secrets are stored
 SECRETS_FOLDER = 'secrets'
 os.makedirs(SECRETS_FOLDER, exist_ok=True)
+
+# Load encryption key (make sure to replace this with your actual key)
+FERNET_KEY = b'your_generated_key_here'
+fernet = Fernet(FERNET_KEY)
 
 @app.route('/')
 def index():
@@ -19,11 +24,15 @@ def create_secret():
     if not secret_text:
         return "No secret provided.", 400
 
+    # Encrypt the secret before saving
+    encrypted_secret = fernet.encrypt(secret_text.encode()).decode()
+
     secret_id = str(uuid.uuid4())
     filepath = os.path.join(SECRETS_FOLDER, f"{secret_id}.json")
 
+    # Save encrypted secret to file
     with open(filepath, 'w') as f:
-        json.dump({"secret": secret_text}, f)
+        json.dump({"secret": encrypted_secret}, f)
 
     share_url = url_for('secret', secret_id=secret_id, _external=True)
     return render_template('share.html', url=share_url)
@@ -39,8 +48,14 @@ def secret(secret_id):
         # On POST, reveal and delete the secret
         with open(filepath, 'r') as f:
             secret_data = json.load(f)
+
+        # Decrypt the secret before displaying
+        decrypted_secret = fernet.decrypt(secret_data['secret'].encode()).decode()
+
+        # Remove the secret after revealing
         os.remove(filepath)
-        return render_template("secret.html", secret=secret_data['secret'])
+
+        return render_template("secret.html", secret=decrypted_secret)
 
     # On GET, show confirmation page
     return render_template("confirm.html", secret_id=secret_id)
