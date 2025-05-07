@@ -77,6 +77,8 @@ def create_secret():
 
     # Generate the shareable link for the secret
     share_url = url_for('secret', secret_id=secret_id, _external=True)
+
+    # Return the share URL immediately after creation
     return render_template('share.html', url=share_url)
 
 @app.route('/secret/<secret_id>', methods=['GET', 'POST'])
