@@ -6,6 +6,8 @@ import base64
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 from io import BytesIO
+from cryptography.hazmat.primitives.asymmetric import rsa, padding
+from cryptography.hazmat.primitives import serialization, hashes
 
 # Load environment variables
 load_dotenv()
@@ -18,6 +20,28 @@ os.makedirs(SECRETS_FOLDER, exist_ok=True)
 
 # Set expiration time for secrets (e.g., 2 minutes)
 EXPIRATION_TIME = timedelta(minutes=2)
+
+# Generate RSA key pair
+private_key = rsa.generate_private_key(
+    public_exponent=65537,
+    key_size=2048
+)
+public_key = private_key.public_key()
+
+# Save the private key to a file
+with open("private_key.pem", "wb") as f:
+    f.write(private_key.private_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PrivateFormat.TraditionalOpenSSL,
+        encryption_algorithm=serialization.NoEncryption()
+    ))
+
+# Save the public key to a file
+with open("public_key.pem", "wb") as f:
+    f.write(public_key.public_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PublicFormat.SubjectPublicKeyInfo
+    ))
 
 @app.route('/')
 def index():
@@ -47,18 +71,25 @@ def create_secret():
     elif text_secret:
         secret_content = text_secret
 
-    # Save as base64 (so client-side JS can encrypt)
+    # Encrypt the secret content with the public key
+    public_key = serialization.load_pem_public_key(public_key_pem.encode())
+    encrypted_content = public_key.encrypt(
+        secret_content.encode(),
+        padding.OAEP(
+            mgf=padding.MGF1(algorithm=hashes.SHA256()),
+            algorithm=hashes.SHA256(),
+            label=None
+        )
+    )
+
     secret_id = str(uuid.uuid4())
     filepath = os.path.join(SECRETS_FOLDER, f"{secret_id}.json")
     created_at = datetime.utcnow()
     expires_at = created_at + EXPIRATION_TIME
 
-    # Store the encrypted content directly (already encrypted by JS)
-    encrypted_content = request.form.get('encrypted')
-
     with open(filepath, 'w') as f:
         json.dump({
-            "secret": encrypted_content,
+            "secret": base64.b64encode(encrypted_content).decode(),
             "created_at": created_at.isoformat(),
             "expires_at": expires_at.isoformat(),
             "is_file": is_file,
