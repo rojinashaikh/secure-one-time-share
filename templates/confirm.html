@@ -1,38 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Confirm to View</title>
-    <style>
-        body {
-            background: linear-gradient(to right, #ff5722, #2575fc); /* Gradient from orange to blue */
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px 0;
-        }
-        h2 {
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-        button {
-            background-color: #ff5722;
-            color: white;
-            font-size: 1.2em;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #e64a19;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Confirmation</title>
 </head>
 <body>
-    <h2>This is a one-time secret link</h2>
-    <p>Click the button below to view it. It will be deleted immediately after.</p>
-    <form method="POST">
+    <h1>Confirm Your Secret</h1>
+    <p>Here is your secret link: <a href="{{ url_for('secret', secret_id=secret_id) }}" target="_blank">{{ url_for('secret', secret_id=secret_id) }}</a></p>
+    <p>Time remaining before the secret expires: {{ time_remaining }}</p>
+
+    {% if password_required %}
+    <form action="{{ url_for('secret', secret_id=secret_id) }}" method="post">
+        <label for="password">Enter Password:</label>
+        <input type="password" id="password" name="password" required>
         <button type="submit">Reveal Secret</button>
     </form>
+    {% else %}
+    <p>No password is required to view this secret.</p>
+    <form action="{{ url_for('secret', secret_id=secret_id) }}" method="post">
+        <button type="submit">Reveal Secret</button>
+    </form>
+    {% endif %}
 </body>
 </html>
