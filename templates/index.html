@@ -4,7 +4,7 @@
     <title>Create Secret</title>
     <style>
         body {
-            background: linear-gradient(to right, #ff5722, #2575fc); /* Gradient from orange to blue */
+            background: linear-gradient(to right, #ff5722, #2575fc);
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
@@ -14,7 +14,7 @@
             font-size: 2.5em;
             margin-bottom: 20px;
         }
-        textarea {
+        textarea, input[type="password"], input[type="file"] {
             background-color: #ffffff;
             color: #333;
             border-radius: 8px;
@@ -22,6 +22,10 @@
             padding: 15px;
             width: 80%;
             margin-bottom: 20px;
+            font-size: 1em;
+        }
+        label {
+            font-weight: bold;
         }
         button {
             background-color: #ff5722;
@@ -35,27 +39,19 @@
         button:hover {
             background-color: #e64a19;
         }
-        label {
-            font-size: 1.1em;
-            color: white;
-        }
-        input[type="password"] {
-            padding: 10px;
-            width: 80%;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            margin-bottom: 20px;
-        }
     </style>
 </head>
 <body>
     <h1>Create a One-Time Secret</h1>
-    <form action="/create_secret" method="POST">
-        <textarea name="secret" rows="5" placeholder="Enter your secret..." required></textarea><br>
-        
-        <!-- Password input field -->
+    <form action="/create_secret" method="POST" enctype="multipart/form-data">
+        <label for="secret">Text Secret (Optional):</label><br>
+        <textarea name="secret" rows="5" placeholder="Enter your secret..."></textarea><br>
+
+        <label for="file">Upload File (Optional):</label><br>
+        <input type="file" name="file" id="file"><br>
+
         <label for="password">Password (Optional):</label><br>
-        <input type="password" name="password" id="password" placeholder="Enter password (optional)"><br><br>
+        <input type="password" name="password" id="password"><br><br>
 
         <button type="submit">Generate Link</button>
     </form>
