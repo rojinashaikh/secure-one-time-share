@@ -3,6 +3,10 @@ import os
 import json
 import uuid
 from cryptography.fernet import Fernet
+from dotenv import load_dotenv
+
+# Load environment variables from a .env file
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -10,8 +14,13 @@ app = Flask(__name__)
 SECRETS_FOLDER = 'secrets'
 os.makedirs(SECRETS_FOLDER, exist_ok=True)
 
-# Load encryption key (make sure to replace this with your actual key)
-FERNET_KEY = b'your_generated_key_here'
+# Load encryption key from environment variable (this is more secure)
+FERNET_KEY = os.getenv('FERNET_KEY')
+
+# Ensure the key is loaded properly
+if not FERNET_KEY:
+    raise ValueError("Encryption key not found. Make sure FERNET_KEY is set in the environment variables.")
+
 fernet = Fernet(FERNET_KEY)
 
 @app.route('/')
