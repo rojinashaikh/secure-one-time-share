@@ -5,32 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Secret</title>
     <style>
-        textarea {
-            width: 100%;
-            max-width: 500px;
-            height: 150px;
-            resize: vertical;
+        /* Blue-to-Orange Gradient Background */
+        body {
+            background: linear-gradient(to right, #00b4d8, #f97316);
+            font-family: Arial, sans-serif;
+            color: #fff;
+            margin: 0;
+            padding: 0;
         }
+
+        h1 {
+            text-align: center;
+            padding-top: 50px;
+            font-size: 36px;
+        }
+
         form {
             max-width: 600px;
-            margin: 0 auto;
+            margin: 50px auto;
             padding: 20px;
-            border: 1px solid #ddd;
             border-radius: 8px;
-            background-color: #f9f9f9;
+            background-color: rgba(255, 255, 255, 0.9); /* Light background for the form */
         }
+
         label {
             font-weight: bold;
             display: block;
             margin-bottom: 8px;
         }
-        input[type="text"], input[type="password"], input[type="file"] {
+
+        input[type="text"], input[type="password"], input[type="file"], textarea {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
         }
+
+        textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
         button {
             background-color: #4CAF50;
             color: white;
@@ -38,7 +54,9 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            width: 100%;
         }
+
         button:hover {
             background-color: #45a049;
         }
