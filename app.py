@@ -25,7 +25,8 @@ if not FERNET_KEY:
 fernet = Fernet(FERNET_KEY)
 
 # Set expiration time for secrets (e.g., 1 hour)
-EXPIRATION_TIME = timedelta(hours=1)
+expiration_time = timedelta(minutes=2)  # Set expiration to 10 minutes
+
 
 @app.route('/')
 def index():
